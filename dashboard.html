@@ -176,35 +176,62 @@
     </footer>
     
     <script>
-  fetch('http://localhost:5000/api/interns')
-    .then(res => res.json())
-    .then(data => {
-      // Dashboard: use first intern
-      const intern = data[0];
-      document.querySelector('.dashboard-profile-name').textContent = intern.name;
-      document.querySelector('.dashboard-label.referral').textContent = `Referral Code:`;
-      document.getElementById('referral-code').textContent = intern.referralCode;
-      document.querySelector('.dashboard-label.amount').textContent = `Total Donations Raised:`;
-      document.getElementById('donations-raised').textContent = `₹${intern.amountRaised.toLocaleString()}`;
+  // fetch('http://localhost:5000/api/interns')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     // Dashboard: use first intern
+  //     const intern = data[0];
+  //     document.querySelector('.dashboard-profile-name').textContent = intern.name;
+  //     document.querySelector('.dashboard-label.referral').textContent = `Referral Code:`;
+  //     document.getElementById('referral-code').textContent = intern.referralCode;
+  //     document.querySelector('.dashboard-label.amount').textContent = `Total Donations Raised:`;
+  //     document.getElementById('donations-raised').textContent = `₹${intern.amountRaised.toLocaleString()}`;
 
-      // Leaderboard: sort by amountRaised descending
-      const sorted = [...data].sort((a, b) => b.amountRaised - a.amountRaised);
-      const tbody = document.getElementById('leaderboard-body');
-      tbody.innerHTML = '';
-      sorted.forEach((item, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${item.name}</td>
-          <td>${item.referralCode}</td>
-          <td>₹${item.amountRaised.toLocaleString()}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    })
-    .catch(err => {
-      console.error('Error fetching intern data:', err);
+  //     // Leaderboard: sort by amountRaised descending
+  //     const sorted = [...data].sort((a, b) => b.amountRaised - a.amountRaised);
+  //     const tbody = document.getElementById('leaderboard-body');
+  //     tbody.innerHTML = '';
+  //     sorted.forEach((item, idx) => {
+  //       const tr = document.createElement('tr');
+  //       tr.innerHTML = `
+  //         <td>${idx + 1}</td>
+  //         <td>${item.name}</td>
+  //         <td>${item.referralCode}</td>
+  //         <td>₹${item.amountRaised.toLocaleString()}</td>
+  //       `;
+  //       tbody.appendChild(tr);
+  //     });
+  //   })
+  //   .catch(err => {
+  //     console.error('Error fetching intern data:', err);
+  //   });
+fetch('https://intern-portal-w2ir.onrender.com/api/interns')
+  .then(res => res.json())
+  .then(data => {
+    const intern = data[0];
+    document.querySelector('.dashboard-profile-name').textContent = intern.name;
+    document.querySelector('.dashboard-label.referral').textContent = `Referral Code:`;
+    document.getElementById('referral-code').textContent = intern.referralCode;
+    document.querySelector('.dashboard-label.amount').textContent = `Total Donations Raised:`;
+    document.getElementById('donations-raised').textContent = `₹${intern.amountRaised.toLocaleString()}`;
+
+    const sorted = [...data].sort((a, b) => b.amountRaised - a.amountRaised);
+    const tbody = document.getElementById('leaderboard-body');
+    tbody.innerHTML = '';
+    sorted.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${idx + 1}</td>
+        <td>${item.name}</td>
+        <td>${item.referralCode}</td>
+        <td>₹${item.amountRaised.toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
     });
+  })
+  .catch(err => {
+    console.error('Error fetching intern data:', err);
+  });
 
   
   document.addEventListener('DOMContentLoaded', function() {
@@ -254,4 +281,5 @@
   });
 </script>
 </body>
+
 </html>
